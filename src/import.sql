@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS `Users` (
 );
 */
 
-CREATE TABLE perfilUsuario ( 
+CREATE TABLE IF NOT EXISTS perfilUsuario ( 
     `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT , 
     `fbId` VARCHAR(100) NOT NULL , 
     `nome` VARCHAR(100) NOT NULL , 
@@ -20,3 +20,23 @@ CREATE TABLE perfilUsuario (
     PRIMARY KEY (id)
 );
 
+CREATE TABLE IF NOT EXISTS `local` (
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `nome` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`)
+);
+
+
+CREATE TABLE IF NOT EXISTS `solicitacao` (
+  `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `fk_perfilusuario` BIGINT UNSIGNED NOT NULL,
+  `nome_paciente` VARCHAR(150) NOT NULL,
+  `fk_local` BIGINT UNSIGNED NOT NULL,
+  PRIMARY KEY (`id`),
+  CONSTRAINT `fk_solicitacao_perfilusuario`
+    FOREIGN KEY (`fk_perfilusuario`)
+    REFERENCES `perfilusuario` (id),
+  CONSTRAINT `fk_solicitacao_local`
+    FOREIGN KEY (fk_local)
+    REFERENCES `local` (id)    
+);
