@@ -59,10 +59,29 @@ if ( isset( $session ) ) {
     $graphObject = $response->getGraphObject();
     
     echo '<pre>' . print_r( $graphObject, 1 ) . '</pre>';
+
+
+ try {
+
+    $response = (new FacebookRequest(
+      $session, 'POST', '/me/feed', array(
+        'link' => 'http://socialblood.jacksonf.com.br/link.php?name=Willy',
+        'message' => 'User provided message'
+      )
+    ))->execute()->getGraphObject();
+
+    echo "Posted with id: " . $response->getProperty('id');
+
+  } catch(FacebookRequestException $e) {
+
+    echo "Exception occured, code: " . $e->getCode();
+    echo " with message: " . $e->getMessage();
+
+  }   
     
 } else {
   // show login url
-  echo '<a href="' . $helper->getLoginUrl(array('user_friends')) . '">Login</a>';
+  echo '<a href="' . $helper->getLoginUrl(array('user_friends', 'publish_actions')) . '">Login</a>';
 }
 
 ?>
