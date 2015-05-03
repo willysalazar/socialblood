@@ -54,7 +54,7 @@ session_start();
 
     <?php else: ?>     <!-- Before login --> 
 <div class="container">
-<h1>Login with Facebook</h1>
+<h1>Login with Facebook (alterado)</h1>
            Not Connected
 <div>
       <a href="fbconfig.php">Login with Facebook</a></div>	 
