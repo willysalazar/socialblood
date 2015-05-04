@@ -45,20 +45,39 @@ if ( isset( $session ) ) {
  	    $fbfullname = $graphObject->getProperty('name'); // To Get Facebook full name
 	    $femail = $graphObject->getProperty('email');    // To Get Facebook email ID
 	/* ---- Session Variables -----*/
-	    $_SESSION['FBID'] = $fbid;           
+	    $_SESSION['FBID'] = $fbid;
 	    $_SESSION['USERNAME'] = $fbuname;
         $_SESSION['FULLNAME'] = $fbfullname;
 	    $_SESSION['EMAIL'] =  $femail;
     echo '<pre>' . print_r( $graphObject, 1 ) . '</pre>';
-    
+
     echo '<br /><br /><br /> ';
      $request = new FacebookRequest(
             $session, 'GET', '/me/friends'
     );
     $response = $request->execute();
     $graphObject = $response->getGraphObject();
-    
+
     echo '<pre>' . print_r( $graphObject, 1 ) . '</pre>';
+
+
+?>
+<hr />
+
+<?php
+	$request = new FacebookRequest(
+		  $session,
+		  'GET',
+		  '/me/taggable_friends'
+	);
+	$response = $request->execute();
+	$graphObject = $response->getGraphObject();
+
+	echo '<pre>' . print_r( $graphObject, 1 ) . '</pre>';
+?>
+
+<hr />
+<?php
 
 
  try {
@@ -77,8 +96,8 @@ if ( isset( $session ) ) {
     echo "Exception occured, code: " . $e->getCode();
     echo " with message: " . $e->getMessage();
 
-  }   
-    
+  }
+
 } else {
   // show login url
   echo '<a href="' . $helper->getLoginUrl(array('user_friends', 'publish_actions')) . '">Login</a>';

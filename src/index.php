@@ -1,13 +1,18 @@
 <?php
 session_start(); 
 ?>
-<!doctype html>
-<html xmlns:fb="http://www.facebook.com/2008/fbml">
+<!DOCTYPE html>
+<html lang="pt-br">
   <head>
+  
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Login with Facebook</title>
-<link href="http://www.bootstrapcdn.com/twitter-bootstrap/2.2.2/css/bootstrap-combined.min.css" rel="stylesheet"> 
- </head>
-  <body>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+	</head>
+<body>
   <?php if ($_SESSION['FBID']): ?>      <!--  After user login  -->
 <div class="container">
 <div class="hero-unit">
@@ -26,25 +31,17 @@ session_start();
 <div><a href="logout.php">Logout</a></div>
 </ul></div></div>
 
-<pre>
-<?php
-	print_r($_SESSION['FRIENDSFB']);
-?>
-</pre>
-
-
-
-
 
 
 <?php
 	$arrayFriends = $_SESSION['FRIENDSFB']; 
 	
-	foreach ($arrayFriends['data'] as $i => $value) {
+	foreach ($arrayFriends['data'] as $i => $value) {?>
 		
-		echo '<img src="https://graph.facebook.com/' . $value->id . '/picture">';
-		echo $value->name;		
+		<img src="https://graph.facebook.com/<?php echo $value->id; ?>/picture" />
+		<span><?php echo $value->name; ?></span>
 		
+	<?php
 	}
 	
 ?>
@@ -61,5 +58,8 @@ session_start();
 	  </div>
       </div>
     <?php endif ?>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
   </body>
 </html>

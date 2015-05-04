@@ -22,6 +22,7 @@ USE `socialblood` ;
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `socialblood`.`uf` (
   `id` INT(11) NOT NULL,
+  `sigla` VARCHAR(2) NOT NULL,
   `nome` VARCHAR(30) NOT NULL,
   PRIMARY KEY (`id`))
 ENGINE = InnoDB
@@ -93,6 +94,7 @@ CREATE TABLE IF NOT EXISTS `socialblood`.`solicitacao` (
   `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
   `fk_perfilusuario` BIGINT(20) UNSIGNED NOT NULL,
   `nome_paciente` VARCHAR(150) NOT NULL,
+  `mensagem` VARCHAR(200),
   `fk_local` BIGINT(20) UNSIGNED NOT NULL,
   PRIMARY KEY (`id`),
   INDEX `fk_solicitacao_perfilusuario` (`fk_perfilusuario` ASC),
