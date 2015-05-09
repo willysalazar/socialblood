@@ -46,9 +46,18 @@ function getPerfilUsuarioByFBId($fbId) {
 }
 
 function addRequest($nomePaciente, $mensagem, $localId, $perfilusuarioId) {
-    $format = "INSERT INTO solicitacao (nome_paciente, mensagem, fk_local, fk_perfilusuario) values ('%s', '%s', %d, %d)";
     
-    $query = sprintf($format,$nomePaciente, $mensagem, $localId, $perfilusuarioId);
-
-    mysql_query($query) or die( "bad query (addRequest)");   
+	$query = "INSERT INTO solicitacao (nome_paciente, mensagem, fk_local, fk_perfilusuario) values ('$nomePaciente', '$mensagem', $localId, $perfilusuarioId);";
+	
+    $result = mysql_query($query);
+	
+	if (!$result) {
+        echo 'Não foi possível executar a consulta: ' . mysql_error();
+        exit;
+    }
+	
+	
+	return mysql_insert_id();
+	
+	
 }

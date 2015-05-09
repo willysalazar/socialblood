@@ -6,6 +6,21 @@ define('SMARTY_RESOURCE_CHAR_SET', 'UTF-8');
 require '/libs/Smarty.class.php';
 require 'functions.php';
 
+require_once 'autoload.php';
+require_once 'functions.php';
+
+use Facebook\FacebookSession;
+use Facebook\FacebookRedirectLoginHelper;
+use Facebook\FacebookRequest;
+use Facebook\FacebookResponse;
+use Facebook\FacebookSDKException;
+use Facebook\FacebookRequestException;
+use Facebook\FacebookAuthorizationException;
+use Facebook\GraphObject;
+use Facebook\Entities\AccessToken;
+use Facebook\HttpClients\FacebookCurlHttpClient;
+use Facebook\HttpClients\FacebookHttpable;
+
 ini_set('date.timezone', 'America/Sao_Paulo');
 
 
@@ -29,8 +44,9 @@ switch ($_action) {
 
         print_r($_POST);
 
-        addRequest($nome, $mensagem, $local, getPerfilUsuarioByFBId($_SESSION['FBID']));
-        
+        $id = addRequest($nome, $mensagem, $local, getPerfilUsuarioByFBId($_SESSION['FBID']));
+
+        header("Location: request.php?id=$id");
         break;
     case 'view':
     default:
@@ -42,10 +58,3 @@ switch ($_action) {
         $smarty->display('request.tpl');
         break;
 }
-
-
-
-
-
-
-
