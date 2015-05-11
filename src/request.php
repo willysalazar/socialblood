@@ -41,19 +41,27 @@ switch ($_action) {
         $nome = $_POST['txtPaciente'];
         $mensagem = $_POST['txtMensagem'];
         $local = $_POST['cbxLocal'];
+        $tipoSanguineo = $_POST['cbxTipoSangue'];        
 
-        print_r($_POST);
-
-        $id = addRequest($nome, $mensagem, $local, getPerfilUsuarioByFBId($_SESSION['FBID']));
+        $id = addRequest($nome, $mensagem, $local, getPerfilUsuarioByFBId($_SESSION['FBID']), $tipoSanguineo);
 
         header("Location: request.php?id=$id");
         break;
     case 'view':
     default:
+        
+        
+        $requestDTO = getRequestById($_GET['id']);        
+        
         $smarty->assign("requester_name", $_SESSION['USERNAME']);
         $smarty->assign("requester_picture", "https://graph.facebook.com/" . $_SESSION['FBID'] . "/picture");
-        $smarty->assign("local_options", listRequest());
-        $smarty->assign("optionLocal_selected", "");
+        $smarty->assign("local_options", listLocal());
+        $smarty->assign("sangue_options", listTipoSanguineo());
+        $smarty->assign("requestId", $requestDTO->getId());
+        $smarty->assign("nomePaciente", $requestDTO->getNome_paciente());
+        $smarty->assign("mensagem", $requestDTO->getMensagem());
+        $smarty->assign("optionLocal_selected", $requestDTO->getFk_local());
+        $smarty->assign("optionSangue_selected", $requestDTO->getFk_tiposanguineo());
 
         $smarty->display('request.tpl');
         break;
