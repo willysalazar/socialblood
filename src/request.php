@@ -1,25 +1,10 @@
 <?php
 
-session_start();
-
 define('SMARTY_RESOURCE_CHAR_SET', 'UTF-8');
 require '/libs/Smarty.class.php';
 require 'functions.php';
 
-require_once 'autoload.php';
 require_once 'functions.php';
-
-use Facebook\FacebookSession;
-use Facebook\FacebookRedirectLoginHelper;
-use Facebook\FacebookRequest;
-use Facebook\FacebookResponse;
-use Facebook\FacebookSDKException;
-use Facebook\FacebookRequestException;
-use Facebook\FacebookAuthorizationException;
-use Facebook\GraphObject;
-use Facebook\Entities\AccessToken;
-use Facebook\HttpClients\FacebookCurlHttpClient;
-use Facebook\HttpClients\FacebookHttpable;
 
 ini_set('date.timezone', 'America/Sao_Paulo');
 
@@ -41,9 +26,10 @@ switch ($_action) {
         $nome = $_POST['txtPaciente'];
         $mensagem = $_POST['txtMensagem'];
         $local = $_POST['cbxLocal'];
-        $tipoSanguineo = $_POST['cbxTipoSangue'];        
+        $tipoSanguineo = $_POST['cbxTipoSangue'];
+        $fbid = $_POST['hdnFaceId'];
 
-        $id = addRequest($nome, $mensagem, $local, getPerfilUsuarioByFBId($_SESSION['FBID']), $tipoSanguineo);
+        $id = addRequest($nome, $mensagem, $local, getPerfilUsuarioByFBId($fbid), $tipoSanguineo);
 
         header("Location: request.php?id=$id");
         break;

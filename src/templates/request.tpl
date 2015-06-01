@@ -20,7 +20,10 @@
 
     <form action="request.php?action=submit" method="POST">
         <div class="row">
+
             <input type="hidden" name="hdnRequestId" value="{$requestId}" />
+            <input type="hidden" name="hdnFaceId" value="" />
+
             <div class="col-md-4"><div class="form-group">
                     <label for="txtPaciente">Nome do Paciente</label>
                     <input type="text" class="form-control"  name="txtPaciente" required="required" placeholder="Nome do Paciente" value="{$nomePaciente}">
@@ -72,7 +75,11 @@
         {/if}
 
     </form>
-  
+
+    <a class="btn btn-block btn-social btn-facebook" id="btn-logout">
+        <i class="fa fa-facebook"></i> Logout
+    </a>
+
     <script src="js/request.js" ></script>
 </div>
 
