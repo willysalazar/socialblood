@@ -1,27 +1,3 @@
--- phpMyAdmin SQL Dump
--- version 4.4.0
--- http://www.phpmyadmin.net
---
--- Host: MYSQL5006
--- Generation Time: 03-Maio-2015 às 16:39
--- Versão do servidor: 5.6.21-log
--- PHP Version: 5.5.13
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
---
--- Database: `db_98e699_social`
---
-
--- --------------------------------------------------------
-
 --
 -- Estrutura da tabela `cidade`
 --
@@ -11214,7 +11190,14 @@ CREATE TABLE IF NOT EXISTS `local` (
   `fk_cidade` int(11) NOT NULL,
   `telefone` varchar(14) NOT NULL,
   `horario` varchar(50) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+
+--
+-- Extraindo dados da tabela `local`
+--
+
+INSERT INTO `local` (`id`, `nome`, `cep`, `logradouro`, `numero`, `bairro`, `latitude`, `longetude`, `fk_cidade`, `telefone`, `horario`) VALUES
+(2, 'HPS', '90000-000', 'rua X', NULL, 'Bairro', NULL, NULL, 4314902, '(51) 9090-8080', '8 ~ 12 14 ~ 18');
 
 -- --------------------------------------------------------
 
@@ -11232,11 +11215,7 @@ CREATE TABLE IF NOT EXISTS `perfilusuario` (
   `dataUltimoLogin` datetime DEFAULT NULL,
   `dataExclusao` datetime DEFAULT NULL,
   `ativo` tinyint(1) DEFAULT '1'
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-
---
--- Extraindo dados da tabela `perfilusuario`
---
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -11249,8 +11228,33 @@ CREATE TABLE IF NOT EXISTS `solicitacao` (
   `fk_perfilusuario` bigint(20) unsigned NOT NULL,
   `nome_paciente` varchar(150) NOT NULL,
   `mensagem` varchar(200) DEFAULT NULL,
-  `fk_local` bigint(20) unsigned NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `fk_local` bigint(20) unsigned NOT NULL,
+  `fk_tiposanguineo` bigint(20) unsigned NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+--
+-- Estrutura da tabela `tiposanguineo`
+--
+
+CREATE TABLE IF NOT EXISTS `tiposanguineo` (
+  `id` bigint(20) unsigned NOT NULL,
+  `tiposanguineo` varchar(3) DEFAULT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+
+--
+-- Extraindo dados da tabela `tiposanguineo`
+--
+
+INSERT INTO `tiposanguineo` (`id`, `tiposanguineo`) VALUES
+(1, 'A+'),
+(2, 'A-'),
+(3, 'B+'),
+(4, 'B-'),
+(5, 'AB+'),
+(6, 'AB-'),
+(7, 'O+'),
+(8, 'O-');
 
 -- --------------------------------------------------------
 
@@ -11327,7 +11331,14 @@ ALTER TABLE `perfilusuario`
 ALTER TABLE `solicitacao`
   ADD PRIMARY KEY (`id`),
   ADD KEY `fk_solicitacao_perfilusuario` (`fk_perfilusuario`),
-  ADD KEY `fk_solicitacao_local` (`fk_local`);
+  ADD KEY `fk_solicitacao_local` (`fk_local`),
+  ADD KEY `fk_tiposanguineo` (`fk_tiposanguineo`);
+
+--
+-- Indexes for table `tiposanguineo`
+--
+ALTER TABLE `tiposanguineo`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `uf`
@@ -11336,24 +11347,25 @@ ALTER TABLE `uf`
   ADD PRIMARY KEY (`id`);
 
 --
--- AUTO_INCREMENT for dumped tables
---
-
---
 -- AUTO_INCREMENT for table `local`
 --
 ALTER TABLE `local`
-  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `perfilusuario`
 --
 ALTER TABLE `perfilusuario`
-  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=3;
 --
 -- AUTO_INCREMENT for table `solicitacao`
 --
 ALTER TABLE `solicitacao`
-  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=36;
+--
+-- AUTO_INCREMENT for table `tiposanguineo`
+--
+ALTER TABLE `tiposanguineo`
+  MODIFY `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,AUTO_INCREMENT=9;
 --
 -- Constraints for dumped tables
 --
@@ -11375,8 +11387,5 @@ ALTER TABLE `local`
 --
 ALTER TABLE `solicitacao`
   ADD CONSTRAINT `fk_solicitacao_local` FOREIGN KEY (`fk_local`) REFERENCES `local` (`id`),
-  ADD CONSTRAINT `fk_solicitacao_perfilusuario` FOREIGN KEY (`fk_perfilusuario`) REFERENCES `perfilusuario` (`id`);
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+  ADD CONSTRAINT `fk_solicitacao_perfilusuario` FOREIGN KEY (`fk_perfilusuario`) REFERENCES `perfilusuario` (`id`),
+  ADD CONSTRAINT `fk_solicitacao_tiposanguineo` FOREIGN KEY (`fk_tiposanguineo`) REFERENCES `tiposanguineo` (`id`);
